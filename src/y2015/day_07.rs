@@ -20,7 +20,12 @@ pub fn solve(){
 }
 
 fn find_gate<'a>(gates: &[&'a str], gate: &'a str) -> &'a str {
-    let output_to_gate = Regex::new(&format!(r"(?i).+\s->\s{}$", gate)).unwrap();
+    println!("before regex");
+    println!("regex `{}`", &format!(r"(?i).+\s->\s{}$", gate));
+    let regex = Regex::new(&format!(r"(?i).+\s->\s{}$", gate));
+    println!("regex {:?}", regex);
+    let output_to_gate = regex.unwrap();
+    println!("after regex");
 
     let output_to_gate = gates
         .iter()
