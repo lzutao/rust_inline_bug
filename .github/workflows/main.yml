@@ -19,5 +19,5 @@ jobs:
       RUST_BACKTRACE: 1
     steps:
       - uses: actions/checkout@v2
-      - run: cargo build --release --all-targets --workspace
-      - run: cargo run --release --all-targets --workspace
+      - run: cargo build --release  --workspace
+      - run: cargo run --release  --workspace
