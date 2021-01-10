@@ -2,9 +2,6 @@ name: Rust
 
 on:
   push:
-    branches:
-      # two reserved branches for bors the bot
-      - *
   pull_request:
     branches:
       - master
