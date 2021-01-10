@@ -19,7 +19,7 @@ jobs:
       RUST_BACKTRACE: 1
     steps:
       - uses: actions/checkout@v2
-      - run: echo "CL=/F 8192" >> "$GITHUB_ENV"
+      - run: echo "CL=/F 8192" >> $GITHUB_ENV
         if: runner.os == 'Windows'
       - run: cargo build --release
       - run: cargo run --release
