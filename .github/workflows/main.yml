@@ -19,6 +19,7 @@ jobs:
       RUST_BACKTRACE: 1
     steps:
       - uses: actions/checkout@v2
-      - run: rustc -Vv
-        # - run: cargo build --release
-        # - run: cargo run --release
+      - run: echo "CL=/F 8192" >> "$GITHUB_ENV"
+        if: runner.os == 'windows-latest'
+      - run: cargo build --release
+      - run: cargo run --release
