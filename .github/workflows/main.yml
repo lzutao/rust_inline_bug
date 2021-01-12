@@ -20,5 +20,7 @@ jobs:
       CL: /F 65536
     steps:
       - uses: actions/checkout@v2
-      - run: cargo build --release -vv
+      - run: cargo check -vv
+      - run: cargo run
+      - run: cargo build --release
       - run: cargo run --release
