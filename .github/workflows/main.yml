@@ -11,16 +11,37 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
+    env:
+      # RUSTFLAGS: -Ctarget-feature=+crt-static
+      RUST_BACKTRACE: 1
+      MINGW_URL: https://ci-mirrors.rust-lang.org/rustc
     strategy:
       matrix:
-        os: [windows-latest]
-    env:
-      RUST_BACKTRACE: 1
-      CL: /F 65536
+        target: [x86_64-pc-windows-msvc, i686-pc-windows-msvc, x86_64-pc-windows-gnu, i686-pc-windows-gnu]
+        include:
+          - target: x86_64-pc-windows-gnu
+            archive: x86_64-6.3.0-release-posix-seh-rt_v5-rev2.7z
+            mingw_dir: mingw64
+          - target: i686-pc-windows-gnu
+            archive: i686-6.3.0-release-posix-dwarf-rt_v5-rev2.7z
+            mingw_dir: mingw32
     steps:
       - uses: actions/checkout@v2
-      - run: cargo check -vv
-      - run: cargo run
-      - run: cargo build --release
-      - run: cargo run --release
+      - run: |
+          rustup toolchain install stable-${{ matrix.target }}
+          rustup default stable-${{ matrix.target }}
+      - name: Check out MinGW toolchain
+        run: |
+          set -x
+          curl -sSf -O "${MINGW_URL}/${{ matrix.archive }}"
+          7z x -y "${{ matrix.archive }}" -o/c/mingw
+          rm "${{ matrix.archive }}"
+          echo "##[add-path]C:\mingw\${{ matrix.mingw_dir }}\bin"
+        shell: bash
+        if: matrix.mingw_dir
+      - run: cargo check -vv --target ${{ matrix.target }}
+      - run: cargo run --target ${{ matrix.target }}
+      - run: cargo build --release --target ${{ matrix.target }}
+      - run: cargo run --release --target ${{ matrix.target }}
+
