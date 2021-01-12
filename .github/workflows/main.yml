@@ -30,8 +30,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          rustup toolchain install stable-${{ matrix.target }}
-          rustup default stable-${{ matrix.target }}
+          rustup toolchain install nightly-${{ matrix.target }}
+          rustup default nightly-${{ matrix.target }}
       - name: Check out MinGW toolchain
         run: |
           set -x
@@ -46,9 +46,8 @@ jobs:
       # - run: cargo run --target ${{ matrix.target }}
       # - run: cargo build --release --target ${{ matrix.target }}
       # - run: cargo run --release --target ${{ matrix.target }}
-      - run: cdb -version
-      # - run: cargo check -vv
-      # - run: cargo run
-      # - run: cargo build --release
-      # - run: cargo run --release
+      - run: cargo check -vv
+      - run: cargo run
+      - run: cargo build --release
+      - run: cargo run --release
 
