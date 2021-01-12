@@ -17,6 +17,7 @@ jobs:
       RUST_BACKTRACE: 1
       MINGW_URL: https://ci-mirrors.rust-lang.org/rustc
     strategy:
+      fail-fast: false
       matrix:
         target: [x86_64-pc-windows-msvc, i686-pc-windows-msvc, x86_64-pc-windows-gnu, i686-pc-windows-gnu]
         include:
